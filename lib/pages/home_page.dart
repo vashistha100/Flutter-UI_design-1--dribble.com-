@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_design1/pages/project.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,10 +11,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   double availableScreenWidth = 0;
+  double avialableScreenHeight = 0;
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     availableScreenWidth = MediaQuery.of(context).size.width - 50;
+    avialableScreenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: Column(
@@ -20,15 +25,15 @@ class _HomePageState extends State<HomePage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
             alignment: Alignment.bottomCenter,
-            height: 170,
+            height: avialableScreenHeight * 0.2,
             decoration: BoxDecoration(color: Colors.blue[800]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
+                  children: [
                     Text(
                       "Riotters",
                       style: TextStyle(
@@ -52,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {},
                         icon: const Icon(
                           Icons.search,
-                          size: 28,
+                          size: 28, 
                           color: Colors.white,
                         ),
                       ),
@@ -230,41 +235,48 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Container buildProjectRow(String foldername) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      height: 65,
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              const Icon(
-                Icons.folder,
-                color: Colors.blue,
-              ),
-              const SizedBox(
-                width: 12,
-              ),
-              Text(
-                foldername,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.more_vert_rounded,
-                color: Colors.grey,
-              ))
-        ],
+  Widget buildProjectRow(String foldername) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+                ProjectPage(foldername: foldername)));
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        height: 65,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons.folder,
+                  color: Colors.blue,
+                ),
+                const SizedBox(
+                  width: 12,
+                ),
+                Text(
+                  foldername,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.more_vert_rounded,
+                  color: Colors.grey,
+                ))
+          ],
+        ),
       ),
     );
   }
